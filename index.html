@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        #contador {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        #recorde {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #ff4b2b;
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ff416c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Estamos há</h1>
+    <div id="contador">00:00:00</div>
+    <h1>sem falar da Lais</h1>
+
+    <div id="recorde">O recorde é de 00:00:00</div>
+
+    <button onclick="reiniciar()">Reiniciar</button>
+
+    <script>
+        let segundos = 0;
+        let recorde = localStorage.getItem('recorde') ? parseInt(localStorage.getItem('recorde')) : 0;
+
+        function formatarTempo(seg) {
+            let h = Math.floor(seg / 3600);
+            let m = Math.floor((seg % 3600) / 60);
+            let s = seg % 60;
+
+            return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function atualizar() {
+            segundos++;
+
+            document.getElementById('contador').innerText = formatarTempo(segundos);
+
+            if (segundos > recorde) {
+                recorde = segundos;
+                localStorage.setItem('recorde', recorde);
+            }
+
+            document.getElementById('recorde').innerText = `O recorde é de ${formatarTempo(recorde)}`;
+        }
+
+        function reiniciar() {
+            segundos = 0;
+        }
+
+        setInterval(atualizar, 1000);
+
+        document.getElementById('recorde').innerText = `O recorde é de ${formatarTempo(recorde)}`;
+    </script>
+
+</body>
+
+</html>
